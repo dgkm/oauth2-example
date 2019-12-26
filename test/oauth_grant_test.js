@@ -26,7 +26,7 @@ describe('OAuth request auth code', function() {
     });
   });
 
-  it('should allow code to be requested', function(done) {
+  it('Signin: should allow code to be requested', function(done) {
     console.log(cookies);
     request(app)
       .post('/oauth/authorise')
@@ -35,7 +35,7 @@ describe('OAuth request auth code', function() {
       .send({
         allow: 'yes',
         client_id: 'papers3',
-        client_secret: '123',
+        //client_secret: '123',
         response_type: 'code',
         redirect_uri: '/oauth/redirect'
       })
@@ -48,7 +48,7 @@ describe('OAuth request auth code', function() {
         });
   });
 
-  it('should allow tokens to be requested with auth code', function(done) {
+  it('Server Client: should allow tokens to be requested with auth code', function(done) {
     request(app)
       .post('/oauth/token')
       .type('form')
@@ -72,7 +72,7 @@ describe('OAuth request auth code', function() {
       });
   });
 
-  it('should permit access to routes that require a refresh_token', function(done) {
+  it('Client: should permit access to routes that require a refresh_token', function(done) {
     console.log("Access token: " + accessToken);
     console.log("Refresh token: " + refreshToken);
     request(app)
@@ -81,7 +81,7 @@ describe('OAuth request auth code', function() {
       .expect(200, done);
   });
 
-  it('should allow the refresh token to be used to get a new access token', function(done) {
+  it('Server Client: should allow the refresh token to be used to get a new access token', function(done) {
     console.log("Access token: " + accessToken);
     console.log("Refresh token: " + refreshToken);
     request(app)
@@ -109,7 +109,7 @@ describe('OAuth request auth code', function() {
       });
   });
 
-  it('should permit access to routes using access token genearated from refresh_token', function(done) {
+  it('Client: should permit access to routes using access token genearated from refresh_token', function(done) {
     console.log("Access token: " + accessToken);
     console.log("Refresh token: " + refreshToken);
     request(app)

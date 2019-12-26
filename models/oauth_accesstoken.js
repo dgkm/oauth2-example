@@ -12,6 +12,21 @@ mongoose.model('oauth_accesstokens', OAuthAccessTokensSchema);
 
 var OAuthAccessTokensModel = mongoose.model('oauth_accesstokens');
 
+module.exports.generateAccessToken = function(type, req, callback) {
+  console.log("Type: ", type);
+  //console.log("Request: ", req);
+  const token = { role: 'mediuser_basic',
+    exp: 1577430178,
+    user_id: 2,
+    is_admin: false,
+    username: 'usercc',
+    email: 'usercc',
+    aud: 'postgraphile',
+    iss: 'postgraphile' }
+
+  callback(null, "aa0c7c8e15e240fc26c98334311315123f2d8b9c" + Date.now())
+};
+
 module.exports.getAccessToken = function(bearerToken, callback) {
   OAuthAccessTokensModel.findOne({ accessToken: bearerToken }, callback);
 };
