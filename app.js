@@ -9,7 +9,7 @@ var oauthserver = require('node-oauth2-server');
 var User = models.User;
 
 app.set('env', process.env.NODE_ENV || 'development');
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.cookieParser('ncie0fnft6wjfmgtjz8i'));
@@ -18,7 +18,7 @@ app.use(express.cookieSession());
 app.locals.title = 'OAuth Example';
 app.locals.pretty = true;
 
-app.configure('development', 'production', function() {
+app.use('development', 'production', function() {
   app.use(express.logger('dev'));
 });
 
@@ -43,7 +43,7 @@ app.use(function(err, req, res, next) {
     res.send(err.errors);
   } else {
     res.status(err.code || 500);
-    res.send('Error');
+    res.send('(' + (err.code || 500) + ") " + err);
   }
 });
 

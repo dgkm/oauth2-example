@@ -7,7 +7,12 @@ module.exports.create = function(req, res, next) {
     if (user) {
       req.session.userId = user.email;
       var redirect = (req.query.redirect != null ? req.query.redirect : '/account');
-      res.redirect(redirect);
+
+      if(redirect === "/oauth/authorise") {
+        res.redirect(redirect + '?client_id=' + req.query.client_id +'&redirect_uri=' + req.query.redirect_uri);
+      } else {
+        res.redirect(redirect);
+      }
     } else {
       res.status(401).render('login');
     }

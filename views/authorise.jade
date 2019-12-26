@@ -7,8 +7,15 @@ block content
       .form-group
         .div You authorise access to you account 
       .form-group
-        input(type='hidden', name='allow', value='yes')
-        input(type='hidden', name='client_id', value='#{client_id}')
-        input(type='hidden', name='redirect_uri', value='#{redirect_uri}')
-        input(type='hidden', name='response_type', value='code')
+        label.allow Allow
+        input(type='text', name='allow', value='yes')
+        br
+        label.client_id Client Id
+        input(type='text', name='client_id', value='#{client_id}')
+        br
+        label.client_id Redirect URI
+        input(type='text', name='redirect_uri', value='#{redirect_uri}')
+        br
+        label.client_id Response type
+        input(type='text', name='response_type', value='code')
         button.btn.btn-lg.btn-primary.btn-block(type='submit') Authorise

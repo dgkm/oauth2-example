@@ -20,12 +20,14 @@ describe('OAuth request auth code', function() {
       password: 'test'
     })
     .end(function (err, res) {
+      console.log(res.headers);
       cookies = res.headers['set-cookie'];
       done(err);
     });
   });
 
   it('should allow code to be requested', function(done) {
+    console.log(cookies);
     request(app)
       .post('/oauth/authorise')
       .type('form')
@@ -64,11 +66,15 @@ describe('OAuth request auth code', function() {
         assert(res.body.refresh_token, 'Ensure the refresh_token was set');
         accessToken = res.body.access_token;
         refreshToken = res.body.refresh_token;
+        console.log("Access token: " + accessToken);
+        console.log("Refresh token: " + refreshToken);
         done();
       });
   });
 
   it('should permit access to routes that require a refresh_token', function(done) {
+    console.log("Access token: " + accessToken);
+    console.log("Refresh token: " + refreshToken);
     request(app)
       .get('/secret')
       .set('Authorization', 'Bearer ' + accessToken)
@@ -76,20 +82,24 @@ describe('OAuth request auth code', function() {
   });
 
   it('should allow the refresh token to be used to get a new access token', function(done) {
+    console.log("Access token: " + accessToken);
+    console.log("Refresh token: " + refreshToken);
     request(app)
       .post('/oauth/token')
       .type('form')
       .auth(clientCredentials, '')
+      //.set('Authorization', 'Bearer ' + accessToken)
       .send({
         grant_type: 'refresh_token',
-        username: 'alex@example.com',
-        password: 'test',
+        //username: 'alex@example.com',
+        //password: 'test',
         client_id: 'papers3',
         client_secret: '123',
         refresh_token: refreshToken
       })
       .expect(200)
       .end(function(err, res) {
+        console.log("Body: " + JSON.stringify(res.body))
         assert(res.body.access_token, 'Ensure the access_token was set');
         assert(res.body.refresh_token, 'Ensure the refresh_token was set');
         accessToken = res.body.access_token;
@@ -97,6 +107,15 @@ describe('OAuth request auth code', function() {
 
         done();
       });
+  });
+
+  it('should permit access to routes using access token genearated from refresh_token', function(done) {
+    console.log("Access token: " + accessToken);
+    console.log("Refresh token: " + refreshToken);
+    request(app)
+      .get('/secret')
+      .set('Authorization', 'Bearer ' + accessToken)
+      .expect(200, done);
   });
 
   it('should forbid access with an expired access token', function(done) {

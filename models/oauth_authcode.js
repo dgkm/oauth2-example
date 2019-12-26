@@ -13,7 +13,9 @@ mongoose.model('oauth_authcodes', OAuthAuthCodeSchema);
 var OAuthAuthCodeModel = mongoose.model('oauth_authcodes');
 
 module.exports.getAuthCode = function(authCode, callback) {
-  OAuthAuthCodeModel.findOne({ authCode: authCode }, callback);
+  OAuthAuthCodeModel.findOne({ authCode: authCode }, function(err, data) {
+   callback(err,  data);
+  });
 };
 
 module.exports.saveAuthCode = function(code, clientId, expires, userId, callback) {

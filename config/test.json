@@ -1,5 +1,5 @@
 {
-  "db": "localhost/oauth-example-test",
+  "db": "mongodb://localhost/oauth-example-test",
   "emailer": {
     "from": "support@example.com"
   },

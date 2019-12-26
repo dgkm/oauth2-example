@@ -8,7 +8,7 @@ models.User.create({
   models.OAuthClientsModel.create({
     clientId: 'papers3',
     clientSecret: '123',
-    redirectUri: '/oauth/redirect'
+    redirectUri: 'http://localhost:3000/authenticate'
   }, function() {
     process.exit();
   });

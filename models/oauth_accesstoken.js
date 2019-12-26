@@ -19,15 +19,15 @@ module.exports.getAccessToken = function(bearerToken, callback) {
 module.exports.saveAccessToken = function(token, clientId, expires, userId, callback) {
   var fields = {
     clientId: clientId,
-    userId: userId,
+    userId: userId.id ? userId.id : userId,
     expires: expires
   };
-
+  console.log(token, fields);
   OAuthAccessTokensModel.update({ accessToken: token }, fields, { upsert: true }, function(err) {
     if (err) {
       console.error(err);
     }
-
+    
     callback(err);
   });
 };
