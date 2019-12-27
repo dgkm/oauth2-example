@@ -52,13 +52,13 @@ describe('OAuth request auth code', function() {
     request(app)
       .post('/oauth/token')
       .type('form')
-      .auth(clientCredentials, '')
+      //.auth(clientCredentials, '')
       .send({
         grant_type: 'authorization_code',
         code: authCode,
         client_id: 'papers3',
         client_secret: '123',
-        refresh_token: refreshToken
+        refresh_token: null //refreshToken
       })
       .expect(200)
       .end(function(err, res) {

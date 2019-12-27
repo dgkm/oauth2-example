@@ -1,0 +1,1 @@
+curl -X POST 'http://localhost:4000/oauth/token' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: http://localhost:3000' --data 'grant_type=authorization_code&code=36153f47f190aee9a3409c73671abf5b3f7b1eff&client_id=papers3&client_secret=123&refresh_token=null'

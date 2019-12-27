@@ -8,7 +8,7 @@ var Client = require('./oauth_client');
 module.exports.getAuthCode = AuthCode.getAuthCode;
 module.exports.saveAuthCode = AuthCode.saveAuthCode;
 
-module.exports.generateToken = AccessToken.generateAccessToken;
+module.exports.generateToken1 = AccessToken.generateAccessToken;
 
 module.exports.saveAccessToken = AccessToken.saveAccessToken;
 module.exports.getAccessToken = AccessToken.getAccessToken;

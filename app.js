@@ -5,25 +5,43 @@ var path = require('path');
 var models = require('./models');
 var middleware = require('./middleware');
 var app = express();
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
 var oauthserver = require('node-oauth2-server');
+var morgan = require('morgan')
+var bodyParser = require('body-parser')
+var methodOverride = require('method-override')
+var errorHandler = require('errorhandler')
+var cors = require('cors')
+
 var User = models.User;
 
 app.set('env', process.env.NODE_ENV || 'development');
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.cookieParser('ncie0fnft6wjfmgtjz8i'));
-app.use(express.cookieSession());
+app.use(cookieParser('ncie0fnft6wjfmgtjz8i'));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
+
+app.use(cors())
 
 app.locals.title = 'OAuth Example';
 app.locals.pretty = true;
 
-app.use('development', 'production', function() {
-  app.use(express.logger('dev'));
-});
+//app.use('development', 'production', function() {
+  //app.use(express.logger('dev'));
+//});
+app.use(morgan('combined'))
 
-app.use(express.bodyParser());
-app.use(express.methodOverride());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+
+app.use(methodOverride());
 
 app.oauth = oauthserver({
   model: models.oauth,
@@ -31,7 +49,7 @@ app.oauth = oauthserver({
   debug: true
 });
 
-app.use(app.router);
+//app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(err, req, res, next) {
@@ -48,7 +66,7 @@ app.use(function(err, req, res, next) {
 });
 
 if ('development' === app.get('env')) {
-  app.use(express.errorHandler());
+  app.use(errorHandler());
 }
 
 app.get('/', middleware.loadUser, routes.index);

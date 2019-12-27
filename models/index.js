@@ -2,7 +2,7 @@ var config = require('./../config');
 var mongoose = require('mongoose');
 
 mongoose.set("debug", (collectionName, method, query, doc) => {
-    console.log(`\nQuery: ${collectionName}.${method} \n`, JSON.stringify(query), doc);
+    console.log(`Query: ${collectionName}.${method} - `, JSON.stringify(query), doc);
 });
 
 console.log("Connecting to ", config.db);

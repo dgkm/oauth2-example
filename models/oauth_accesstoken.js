@@ -13,8 +13,10 @@ mongoose.model('oauth_accesstokens', OAuthAccessTokensSchema);
 var OAuthAccessTokensModel = mongoose.model('oauth_accesstokens');
 
 module.exports.generateAccessToken = function(type, req, callback) {
+  console.log("\n*******\n")
   console.log("Type: ", type);
-  //console.log("Request: ", req);
+  console.log("Request: ", req.user);
+  console.log("*******\n")
   const token = { role: 'mediuser_basic',
     exp: 1577430178,
     user_id: 2,
